@@ -1,0 +1,10 @@
+CREATE TABLE cash_ledger (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+type VARCHAR(10) NOT NULL,
+amount DECIMAL(12,2) NOT NULL,
+description VARCHAR(255),
+txn_date DATE NOT NULL,
+created_by VARCHAR(100),
+created_at DATETIME NOT NULL,
+updated_at DATETIME
+);

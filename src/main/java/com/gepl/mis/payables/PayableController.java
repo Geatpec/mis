@@ -1,0 +1,26 @@
+package com.gepl.mis.payables;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/payables")
+public class PayableController {
+    @Autowired
+    private PayableService service;
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody PayableRequest request){
+        String user= SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(service.create(request,user));
+    }
+
+    @PostMapping("/{id}/pay")
+    public ResponseEntity<?> pay(@PathVariable Long id, @RequestBody PayablePaymentRequest request){
+        String user=SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return ResponseEntity.ok(service.pay(id, request,user));
+    }
+}

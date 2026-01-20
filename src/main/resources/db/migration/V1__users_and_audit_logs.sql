@@ -15,7 +15,8 @@ CREATE TABLE audit_logs (
     module VARCHAR(50) NOT NULL,
     action VARCHAR(20) NOT NULL,
     note VARCHAR(255),
-    created_at DATETIME NOT NULL
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 CREATE INDEX idx_users_username ON users(username);
