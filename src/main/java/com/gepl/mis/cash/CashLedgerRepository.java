@@ -37,4 +37,19 @@ public interface CashLedgerRepository extends JpaRepository<CashLedger, Long> {
             @Param("category") String category
     );
 
+    /* ================= ORG LEVEL ================= */
+
+    @Query("""
+        SELECT COALESCE(SUM(c.amount), 0)
+        FROM CashLedger c
+        WHERE c.type = 'IN'
+    """)
+    BigDecimal totalCashInOrg();
+
+    @Query("""
+        SELECT COALESCE(SUM(c.amount), 0)
+        FROM CashLedger c
+        WHERE c.type = 'OUT'
+    """)
+    BigDecimal totalCashOutOrg();
 }

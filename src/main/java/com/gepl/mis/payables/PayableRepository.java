@@ -32,4 +32,14 @@ public interface PayableRepository extends JpaRepository<Payable, Long> {
         WHERE p.projectId = :projectId
     """)
     BigDecimal totalPaidAmount(@Param("projectId") Long projectId);
+
+    /* ================= ORG LEVEL ================= */
+
+    @Query("""
+        SELECT COALESCE(SUM(p.invoiceAmount - p.paidAmount), 0)
+        FROM Payable p
+        WHERE p.status <> 'PAID'
+    """)
+    BigDecimal totalPayableOutstandingOrg();
 }
+

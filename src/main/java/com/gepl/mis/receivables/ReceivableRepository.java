@@ -32,4 +32,14 @@ public interface ReceivableRepository extends JpaRepository<Receivable, Long> {
         WHERE r.projectId = :projectId
     """)
     BigDecimal totalReceivedAmount(@Param("projectId") Long projectId);
+
+
+    /* ================= ORG LEVEL ================= */
+
+    @Query("""
+        SELECT COALESCE(SUM(r.invoiceAmount - r.receivedAmount), 0)
+        FROM Receivable r
+        WHERE r.status <> 'PAID'
+    """)
+    BigDecimal totalReceivableOutstandingOrg();
 }
