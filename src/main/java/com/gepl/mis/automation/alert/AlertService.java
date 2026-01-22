@@ -63,4 +63,8 @@ public class AlertService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Alert not found"));
     }
+
+    public long countBySeverity(String severity) {
+        return repository.countOpenBySeverity(severity);
+    }
 }

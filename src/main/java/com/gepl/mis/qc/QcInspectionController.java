@@ -1,0 +1,22 @@
+package com.gepl.mis.qc;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/qc")
+public class QcInspectionController {
+    @Autowired
+    private QcInspectionService service;
+
+    @PostMapping("/inspect/{productionOrderId}")
+    public ResponseEntity<?> inspect(@PathVariable Long productionOrderId,
+                                     @RequestBody QcInspectionRequest request){
+        String inspector= SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return ResponseEntity.ok(service.inspect(productionOrderId, request,inspector));
+
+    }
+}

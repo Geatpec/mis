@@ -31,4 +31,12 @@ public interface AlertRepository extends JpaRepository<Alert, Long> {
         WHERE a.status = 'OPEN'
     """)
     long countOpenAlerts();
+
+    @Query("""
+        SELECT COUNT(a)
+        FROM Alert a
+        WHERE a.status = 'OPEN'
+          AND a.severity = :severity
+    """)
+    long countOpenBySeverity( @Param("severity") String severity);
 }
