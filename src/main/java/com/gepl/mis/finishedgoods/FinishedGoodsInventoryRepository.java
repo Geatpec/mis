@@ -9,5 +9,6 @@ public interface FinishedGoodsInventoryRepository
 
     List<FinishedGoodsInventory> findByProjectId(Long projectId);
 
+
     List<FinishedGoodsInventory> findByProductionOrderId(Long productionOrderId);
 }

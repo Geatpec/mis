@@ -1,5 +1,6 @@
 package com.gepl.mis.automation.rule;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class AutomationRuleController {
     private AutomationRuleService service;
 
     @PostMapping
-    public AutomationRule create(@RequestBody   AutomationRule rule){
+    public AutomationRule create(@Valid @RequestBody AutomationRule rule){
         return service.createRule(rule);
     }
     @GetMapping

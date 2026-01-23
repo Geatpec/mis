@@ -1,5 +1,6 @@
 package com.gepl.mis.qc;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +14,7 @@ public class QcInspectionController {
 
     @PostMapping("/inspect/{productionOrderId}")
     public ResponseEntity<?> inspect(@PathVariable Long productionOrderId,
-                                     @RequestBody QcInspectionRequest request){
+                                     @Valid @RequestBody QcInspectionRequest request){
         String inspector= SecurityContextHolder.getContext().getAuthentication().getName();
 
         return ResponseEntity.ok(service.inspect(productionOrderId, request,inspector));

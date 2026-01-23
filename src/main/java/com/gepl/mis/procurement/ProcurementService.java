@@ -5,6 +5,8 @@ import com.gepl.mis.inventory.InventoryMovementService;
 import com.gepl.mis.procurement.dto.ProcurementReceiptRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -59,6 +61,21 @@ public class ProcurementService {
 
     }
 
+    public Page<Procurement> byProject(
+            Long projectId,
+            Pageable pageable
+    ) {
+        return repository.findByProjectId(projectId, pageable);
+    }
+
+    public Page<Procurement> bySupplier(
+            String supplier,
+            Pageable pageable
+    ) {
+        return repository.findBySupplier(supplier, pageable);
+    }
+
+
 
     public List<Procurement> byProject(Long projectId){
         return repository.findByProjectId(projectId);
@@ -76,5 +93,9 @@ public class ProcurementService {
     private Procurement get(Long id){
         return repository.findById(id)
                 .orElseThrow(()->new RuntimeException("Procurment record not found"));
+    }
+
+    public Page<Procurement> getAll(Pageable pageable){
+        return repository.findAll(pageable);
     }
 }

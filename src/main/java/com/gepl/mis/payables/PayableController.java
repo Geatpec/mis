@@ -1,5 +1,6 @@
 package com.gepl.mis.payables;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,13 +13,13 @@ public class PayableController {
     private PayableService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody PayableRequest request){
+    public ResponseEntity<?> create(@Valid @RequestBody PayableRequest request){
         String user= SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(service.create(request,user));
     }
 
     @PostMapping("/{id}/pay")
-    public ResponseEntity<?> pay(@PathVariable Long id, @RequestBody PayablePaymentRequest request){
+    public ResponseEntity<?> pay(@PathVariable Long id,@Valid @RequestBody PayablePaymentRequest request){
         String user=SecurityContextHolder.getContext().getAuthentication().getName();
 
         return ResponseEntity.ok(service.pay(id, request,user));

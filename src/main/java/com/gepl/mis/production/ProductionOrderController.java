@@ -3,6 +3,7 @@ package com.gepl.mis.production;
 import com.gepl.mis.production.dto.ProductionMaterialConsumeRequest;
 import com.gepl.mis.production.dto.ProductionOrderRequest;
 import com.gepl.mis.production.dto.ProductionUpdateRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,7 @@ public class ProductionOrderController {
     private ProductionOrderService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ProductionOrderRequest request){
+    public ResponseEntity<?> create(@Valid @RequestBody ProductionOrderRequest request){
         String user= SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(service.create(request,user));
     }
@@ -27,7 +28,7 @@ public class ProductionOrderController {
     }
 
     @PostMapping("/{id}/produce")
-    public ResponseEntity<?> produce(@PathVariable Long id, @RequestBody ProductionUpdateRequest request){
+    public ResponseEntity<?> produce(@PathVariable Long id,@Valid @RequestBody ProductionUpdateRequest request){
         return ResponseEntity.ok(service.updateProduction(id,request));
     }
 
@@ -37,7 +38,7 @@ public class ProductionOrderController {
     }
 
     @PostMapping("/{id}/consume")
-    public ResponseEntity<?>  consume(@PathVariable Long id, @RequestBody ProductionMaterialConsumeRequest request){
+    public ResponseEntity<?>  consume(@PathVariable Long id,@Valid @RequestBody ProductionMaterialConsumeRequest request){
         String user=SecurityContextHolder.getContext().getAuthentication().getName();
         service.consumeMaterial(id,request,user);
         return ResponseEntity.ok("Material consumed");

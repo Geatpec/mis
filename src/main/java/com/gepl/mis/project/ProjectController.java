@@ -1,5 +1,6 @@
 package com.gepl.mis.project;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +16,7 @@ public class ProjectController {
     private ProjectService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ProjectRequest request){
+    public ResponseEntity<?> create(@Valid @RequestBody ProjectRequest request){
         String user= SecurityContextHolder.getContext().getAuthentication().getName();
 
         return ResponseEntity.ok(service.create(request,user));

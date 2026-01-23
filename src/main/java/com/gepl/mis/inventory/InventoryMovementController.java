@@ -1,5 +1,6 @@
 package com.gepl.mis.inventory;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,7 @@ public class InventoryMovementController {
     private InventoryMovementService service;
 
     @PostMapping
-    public ResponseEntity<?> move(@RequestBody InventoryMovementRequest request){
+    public ResponseEntity<?> move(@Valid @RequestBody InventoryMovementRequest request){
         Authentication auth=SecurityContextHolder.getContext().getAuthentication();
         return ResponseEntity.ok(service.move(request,auth.getName()));
     }

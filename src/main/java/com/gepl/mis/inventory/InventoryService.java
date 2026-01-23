@@ -1,6 +1,8 @@
 package com.gepl.mis.inventory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +42,9 @@ public class InventoryService {
 
     }
 
+    public Page<Inventory> getAll(Pageable pageable){
+        return repository.findAll(pageable);
+    }
     public List<Inventory> getAll(){
         return repository.findAll();
     }

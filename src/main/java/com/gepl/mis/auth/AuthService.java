@@ -1,5 +1,6 @@
 package com.gepl.mis.auth;
 
+import com.gepl.mis.audit.AuditLoggingAspect;
 import com.gepl.mis.auth.dto.AuthResponse;
 import com.gepl.mis.auth.dto.LoginRequest;
 import com.gepl.mis.auth.dto.SignupRequest;
@@ -8,6 +9,7 @@ import com.gepl.mis.config.SecurityBeansConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService {
@@ -18,7 +20,7 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+     @Autowired
     private JwtService jwtService;
 
     public void signup(SignupRequest request){
@@ -47,6 +49,22 @@ public class AuthService {
         );
 
     }
+
+    @Transactional
+    public void resetUserPassword(
+            Long userId,
+            String adminUsername,
+            String newPassword
+    ) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+
+    }
+
 
 
 
