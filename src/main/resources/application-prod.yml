@@ -1,7 +1,9 @@
 spring:
   application:
     name: gepl-mis-backend
-
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
   datasource:
     url: jdbc:mysql://mysql.railway.internal:3306/railway
     username: root
@@ -26,3 +28,12 @@ logging:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+
+
