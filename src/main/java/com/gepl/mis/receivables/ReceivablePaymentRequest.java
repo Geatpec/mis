@@ -2,6 +2,7 @@ package com.gepl.mis.receivables;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,6 +14,6 @@ public class ReceivablePaymentRequest {
     private BigDecimal amount;
 
 
-    @NotBlank(message = "Payment Date is required")
+    @NotNull(message = "Payment Date is required")
     private LocalDate paymentDate;
 }
