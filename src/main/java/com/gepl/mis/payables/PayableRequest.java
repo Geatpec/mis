@@ -19,10 +19,10 @@ public class PayableRequest {
     @NotNull(message = "Invoice is required")
     private String invoiceNo;
 
-    @NotBlank
+    @NotNull
     private LocalDate invoiceDate;
 
-    @NotBlank
+    @NotNull
     private LocalDate dueDate;
 
     @DecimalMin(value = "0.01", message = "Invoice Amount must be greater than 0")
