@@ -11,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -20,7 +22,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request){
         authService.signup(request);
-        return ResponseEntity.ok("User created");
+        return ResponseEntity.ok(Map.of("message","User created"));
     }
 
     @PostMapping("/login")
@@ -44,6 +46,6 @@ public class AuthController {
                 request.getNewPassword()
         );
 
-        return ResponseEntity.ok("Password reset successfully");
+        return ResponseEntity.ok(Map.of("message","Password reset successfully"));
     }
 }
