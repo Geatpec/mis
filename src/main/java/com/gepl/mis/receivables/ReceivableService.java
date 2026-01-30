@@ -4,6 +4,8 @@ import com.gepl.mis.cash.CashLedger;
 import com.gepl.mis.cash.CashLedgerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -58,6 +60,9 @@ public class ReceivableService {
             cashRepository.save(cash);
             return repository.save(r);
         }
+    public Page<Receivable> getAll(Pageable pageable){
+        return repository.findAll(pageable);
+    }
     }
 
 

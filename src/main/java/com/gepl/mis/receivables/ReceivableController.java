@@ -2,6 +2,9 @@ package com.gepl.mis.receivables;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +26,18 @@ public class ReceivableController {
         String user= SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(service.receivePayment(id,request,user));
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAll(
+            @PageableDefault(
+                    size = 10,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            )
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(service.getAll(pageable));
+    }
+
 }
 
