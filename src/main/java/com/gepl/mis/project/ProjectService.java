@@ -25,7 +25,7 @@ public class ProjectService {
         return repository.save(p);
     }
 
-    public Page<Procurement> getAll(Pageable pageable){
+    public Page<Project> getAll(Pageable pageable){
         return repository.findAll(pageable);
     }
 }
