@@ -3,6 +3,8 @@ package com.gepl.mis.procurement;
 import com.gepl.mis.inventory.InventoryMovementRequest;
 import com.gepl.mis.inventory.InventoryMovementService;
 import com.gepl.mis.procurement.dto.ProcurementReceiptRequest;
+import com.gepl.mis.procurement.dto.ProcurementRequest;
+import com.gepl.mis.production.ProductionOrder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,22 +22,69 @@ public class ProcurementService {
     @Autowired
     private InventoryMovementService inventoryMovementService;
 
-    @Transactional
-    public Procurement create(Procurement p){
-        enrich(p);
-        return repository.save(p);
-    }
 
-    @Transactional
-    public Procurement update(Long id, Procurement updated){
-        Procurement existing =get(id);
+        @Transactional
+        public Procurement createProcurement(ProcurementRequest dto) {
 
-        existing.setReceivedQty(updated.getReceivedQty());
-        existing.setRate(updated.getRate());
-        existing.setLeadTime(updated.getLeadTime());
-        enrich(existing);
-        return repository.save(existing);
-    }
+            Procurement procurement = new Procurement();
+
+            procurement.setProjectId(dto.getProjectId());
+            procurement.setBomVersion(dto.getBomVersion());
+            procurement.setPartNo(dto.getPartNo());
+            procurement.setDescription(dto.getDescription());
+            procurement.setSupplier(dto.getSupplier());
+
+            procurement.setPlannedQty(dto.getPlannedQty());
+            procurement.setOrderedQty(dto.getOrderedQty());
+            procurement.setReceivedQty(dto.getReceivedQty() != null ? dto.getReceivedQty() : 0);
+
+            procurement.setRate(dto.getRate());
+            procurement.setLeadTime(dto.getLeadTime());
+
+            // ✅ Auto calculations
+            procurement.setTotalValue(dto.getRate().multiply(BigDecimal.valueOf(dto.getOrderedQty())));
+
+            procurement.setExcessQty(
+                    dto.getOrderedQty() - dto.getPlannedQty()
+            );
+
+           return repository.save(procurement);
+
+
+        }
+
+        @Transactional
+        public Procurement updateProcurement(Long id, ProcurementRequest dto) {
+
+            Procurement procurement = repository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Procurement not found with id: " + id));
+
+            procurement.setProjectId(dto.getProjectId());
+            procurement.setBomVersion(dto.getBomVersion());
+            procurement.setPartNo(dto.getPartNo());
+            procurement.setDescription(dto.getDescription());
+            procurement.setSupplier(dto.getSupplier());
+
+            procurement.setPlannedQty(dto.getPlannedQty());
+            procurement.setOrderedQty(dto.getOrderedQty());
+            procurement.setReceivedQty(dto.getReceivedQty());
+
+            procurement.setRate(dto.getRate());
+            procurement.setLeadTime(dto.getLeadTime());
+
+            // ✅ Recalculate
+            procurement.setTotalValue(dto.getRate().multiply(BigDecimal.valueOf(dto.getOrderedQty())));
+            procurement.setExcessQty(dto.getOrderedQty() - dto.getPlannedQty());
+
+            return repository.save(procurement);
+
+
+        }
+
+
+
+
+
     @Transactional
     public Procurement receiveMaterial(Long procurementId, ProcurementReceiptRequest request, String username){
         Procurement p= get(procurementId);

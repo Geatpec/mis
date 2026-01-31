@@ -11,4 +11,5 @@ public interface ProcurementRepository extends JpaRepository<Procurement,Long> {
     Page<Procurement> findByProjectId(Long projectId, Pageable pageable);
     List<Procurement> findBySupplier(String supplier);
     Page<Procurement> findBySupplier(String supplier, Pageable pageable);
+    Page<Procurement> findAll( Pageable pageable);
 }

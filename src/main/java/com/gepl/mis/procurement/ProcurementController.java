@@ -1,6 +1,7 @@
 package com.gepl.mis.procurement;
 
 import com.gepl.mis.procurement.dto.ProcurementReceiptRequest;
+import com.gepl.mis.procurement.dto.ProcurementRequest;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,14 @@ public class ProcurementController {
     private ProcurementService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Procurement p){
-        return ResponseEntity.ok(service.create(p));
+    public ResponseEntity<?> create(@Valid @RequestBody ProcurementRequest p){
+        return ResponseEntity.ok(service.createProcurement(p));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                   @Valid @RequestBody Procurement p){
-        return ResponseEntity.ok(service.update(id,p));
+                                   @Valid @RequestBody ProcurementRequest p){
+        return ResponseEntity.ok(service.updateProcurement(id,p));
     }
 
     @PostMapping("/{id}/receive")
