@@ -1,6 +1,9 @@
 package com.gepl.mis.project;
 
+import com.gepl.mis.procurement.Procurement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,5 +23,9 @@ public class ProjectService {
         p.setCreatedBy(username);
 
         return repository.save(p);
+    }
+
+    public Page<Procurement> getAll(Pageable pageable){
+        return repository.findAll(pageable);
     }
 }
