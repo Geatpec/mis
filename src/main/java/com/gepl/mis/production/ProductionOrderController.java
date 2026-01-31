@@ -5,6 +5,9 @@ import com.gepl.mis.production.dto.ProductionOrderRequest;
 import com.gepl.mis.production.dto.ProductionUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
@@ -42,6 +45,19 @@ public class ProductionOrderController {
         String user=SecurityContextHolder.getContext().getAuthentication().getName();
         service.consumeMaterial(id,request,user);
         return ResponseEntity.ok("Material consumed");
+
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll(
+            @PageableDefault(
+                    size = 10,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            )
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(service.getAll(pageable));
     }
 }
 

@@ -3,6 +3,7 @@ package com.gepl.mis.production;
 import com.gepl.mis.inventory.InventoryMovementRepository;
 import com.gepl.mis.inventory.InventoryMovementRequest;
 import com.gepl.mis.inventory.InventoryMovementService;
+import com.gepl.mis.payables.Payable;
 import com.gepl.mis.production.dto.ProductionMaterialConsumeRequest;
 import com.gepl.mis.production.dto.ProductionOrderRequest;
 import com.gepl.mis.production.dto.ProductionUpdateRequest;
@@ -78,6 +79,9 @@ public class ProductionOrderService {
         return repository.findByProjectId(projectId);
     }
 
+    public Page<ProductionOrder> getAll(Pageable pageable){
+        return repository.findAll(pageable);
+    }
     private ProductionOrder get(Long id){
         return repository.findById(id).orElseThrow(()->new RuntimeException("Production order not found"));
     }
