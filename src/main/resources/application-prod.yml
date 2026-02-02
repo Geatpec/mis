@@ -28,3 +28,8 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+server:
+  address: 0.0.0.0
+  port: 8080
+
