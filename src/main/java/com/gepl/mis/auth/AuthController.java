@@ -1,11 +1,12 @@
 package com.gepl.mis.auth;
 
-import com.gepl.mis.auth.dto.AuthResponse;
-import com.gepl.mis.auth.dto.LoginRequest;
-import com.gepl.mis.auth.dto.ResetPasswordRequest;
-import com.gepl.mis.auth.dto.SignupRequest;
+import com.gepl.mis.auth.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +30,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
         return ResponseEntity.ok(authService.login(request));
     }
-    @PostMapping("/users/{userId}/reset-password")
+    @PostMapping("/{userId}/reset-password")
     @PreAuthorize("hasRole('FOUNDER')")
     public ResponseEntity<?> resetPassword(
             @PathVariable Long userId,
@@ -48,4 +49,32 @@ public class AuthController {
 
         return ResponseEntity.ok(Map.of("message","Password reset successfully"));
     }
+
+    @PreAuthorize("hasRole('FOUNDER')")
+    @GetMapping("/users")
+    public Page<UserTableResponse> usersTable(
+            @PageableDefault(
+                    size = 10,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable) {
+
+        return authService.getUsersTable(pageable);
+    }
+
+    @PreAuthorize("hasAnyRole('FOUNDER')")
+    @GetMapping("/audit")
+    public ResponseEntity<?> auditTable(
+            @PageableDefault(
+                    size = 10,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                authService.getAuditTable(pageable)
+        );
+    }
+
+
 }

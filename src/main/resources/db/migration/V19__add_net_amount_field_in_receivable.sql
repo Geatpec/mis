@@ -1,0 +1,3 @@
+ALTER TABLE receivables
+
+ADD COLUMN net_amount DECIMAL(15,2) NOT NULL DEFAULT 0.00;

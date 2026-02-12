@@ -1,6 +1,7 @@
 package com.gepl.mis.receivables;
 
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,7 +17,7 @@ public class ReceivableController {
     private ReceivableService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody ReceivableRequest request){
+    public ResponseEntity<?> create(@Valid @RequestBody ReceivableRequest request)throws BadRequestException {
         String user= SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(service.create(request,user));
 

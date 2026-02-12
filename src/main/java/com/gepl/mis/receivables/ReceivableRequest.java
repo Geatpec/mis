@@ -25,6 +25,14 @@ public class ReceivableRequest {
     @NotNull
     private LocalDate dueDate;
 
+
+    private Boolean tdsApplicable;
+
+    private BigDecimal tdsRate;
+
+
+    private String tdsDescription;
+
     @DecimalMin(value = "0.01", message = "Invoice Amount must be greater than 0")
     private BigDecimal invoiceAmount;
 }

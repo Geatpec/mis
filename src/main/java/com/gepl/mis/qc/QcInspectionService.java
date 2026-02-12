@@ -1,10 +1,13 @@
 package com.gepl.mis.qc;
 
+import com.gepl.mis.procurement.Procurement;
 import com.gepl.mis.production.ProductionOrder;
 import com.gepl.mis.production.ProductionOrderRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QcInspectionService {
@@ -48,6 +51,9 @@ public class QcInspectionService {
         }
     }
 
+    public Page<QcInspection> getAll(Pageable pageable){
+        return repository.findAll(pageable);
+    }
 
 }
 

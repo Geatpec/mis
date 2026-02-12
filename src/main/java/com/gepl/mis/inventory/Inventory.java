@@ -13,8 +13,8 @@ public class Inventory extends BaseEntity {
     @Column(name="item_code", nullable = false,unique = true)
     private String itemCode;
 
-    @Column(name="item_name", nullable = false)
-    private String itemName;
+    @Column(name="item_category", nullable = false)
+    private String itemCategory;
 
     @Column( nullable = false)
     private Integer quantity;

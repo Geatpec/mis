@@ -7,11 +7,11 @@ import com.gepl.mis.payables.Payable;
 import com.gepl.mis.production.dto.ProductionMaterialConsumeRequest;
 import com.gepl.mis.production.dto.ProductionOrderRequest;
 import com.gepl.mis.production.dto.ProductionUpdateRequest;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;

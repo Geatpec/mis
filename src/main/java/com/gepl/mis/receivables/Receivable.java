@@ -34,6 +34,22 @@ public class Receivable extends BaseEntity {
     @Column(name="received_amount")
     private BigDecimal receivedAmount =BigDecimal.ZERO;
 
+    @Column(name = "tds_applicable", nullable = false)
+    private Boolean tdsApplicable = false;
+
+    @Column(name = "tds_rate")
+    private BigDecimal tdsRate;
+
+    @Column(name = "tds_amount", nullable = false)
+    private BigDecimal tdsAmount = BigDecimal.ZERO;
+
+    @Column(name = "net_amount", nullable = false)
+    private BigDecimal netAmount = BigDecimal.ZERO;
+
+    @Column(name = "tds_description", length = 255)
+    private String tdsDescription;
+
+
     @Column( nullable = false)
     private String status;
 

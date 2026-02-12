@@ -7,19 +7,23 @@ import com.gepl.mis.payables.PayableRepository;
 import com.gepl.mis.project.dto.ProjectSummaryResponse;
 import com.gepl.mis.receivables.ReceivableRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
-@RequiredArgsConstructor
 public class ProjectSummaryService {
-
-    private final ProjectRepository projectRepository;
-    private final CashLedgerRepository cashRepository;
-    private final ReceivableRepository receivableRepository;
-    private final PayableRepository payableRepository;
-    private final InventoryMovementRepository inventoryMovementRepository;
+    @Autowired
+    private  ProjectRepository projectRepository;
+    @Autowired
+    private  CashLedgerRepository cashRepository;
+    @Autowired
+    private  ReceivableRepository receivableRepository;
+    @Autowired
+    private  PayableRepository payableRepository;
+    @Autowired
+    private  InventoryMovementRepository inventoryMovementRepository;
 
     public ProjectSummaryResponse summary(Long projectId) {
 

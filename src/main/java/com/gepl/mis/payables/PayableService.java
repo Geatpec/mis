@@ -3,11 +3,13 @@ package com.gepl.mis.payables;
 import com.gepl.mis.cash.CashLedger;
 import com.gepl.mis.cash.CashLedgerRepository;
 import com.gepl.mis.receivables.Receivable;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.math.BigDecimal;
 
@@ -34,19 +36,47 @@ public class PayableService {
         return repository.save(p);
     }
 
+
     @Transactional
     public Payable pay(Long payableId, PayablePaymentRequest request, String username) {
-        Payable p = repository.findById(payableId).orElseThrow(() -> new RuntimeException("Payable not found"));
 
-        p.setPaidAmount(p.getPaidAmount().add(request.getAmount()));
 
-        if (p.getPaidAmount().compareTo(p.getInvoiceAmount()) >= 0) {
-            p.setStatus("PAID");
-        } else {
-            p.setStatus("PARTIAL");
+        if (request.getAmount() == null) {
+            throw new IllegalArgumentException("Amount is required");
         }
 
-        // 🔴 AUTO CASH-OUT
+        if (request.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
+
+        Payable p = repository.findById(payableId)
+                .orElseThrow(() -> new RuntimeException("Payable not found"));
+
+        BigDecimal currentPaid =
+                p.getPaidAmount() == null ? BigDecimal.ZERO : p.getPaidAmount();
+
+        BigDecimal newPaid = currentPaid.add(request.getAmount());
+
+        System.out.println("currentPaid = " + currentPaid);
+        System.out.println("requestAmount = " + request.getAmount());
+        System.out.println("invoiceAmount = " + p.getInvoiceAmount());
+        System.out.println("newPaid = " + newPaid);
+
+        if (newPaid.compareTo(p.getInvoiceAmount()) > 0) {
+
+            throw new RuntimeException("Paid amount exceeds invoice amount");
+        }
+
+
+
+        p.setPaidAmount(newPaid);
+        p.setStatus(
+                newPaid.compareTo(p.getInvoiceAmount()) >= 0 ? "PAID" : "PARTIAL"
+        );
+
+
+
+
         CashLedger cash = new CashLedger();
         cash.setType("OUT");
         cash.setAmount(request.getAmount());
@@ -58,9 +88,12 @@ public class PayableService {
         cash.setDescription("Payment to " + p.getVendorName());
         cash.setCreatedBy(username);
 
-        cashRepository.save(cash);
-        return repository.save(p);
-    }
+         repository.save(p);
+       cashRepository.save(cash);
+
+    return p;
+  }
+
     public Page<Payable> getAll(Pageable pageable){
         return repository.findAll(pageable);
     }

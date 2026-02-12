@@ -17,6 +17,9 @@ public class ProjectRequest {
     @NotBlank
     private String clientName;
 
+    @NotBlank
+    private String status;
+
     @NotNull
     private LocalDate plannedStartDate;
     @NotNull

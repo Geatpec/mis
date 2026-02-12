@@ -11,7 +11,7 @@ public class InventoryRequest {
     @NotBlank
     private String itemCode;
     @NotBlank
-    private String itemName;
+    private String itemCategory;
     @Min(value = 1,message = "Received Quantity must be >=1")
     private Integer quantity;
     @NotBlank

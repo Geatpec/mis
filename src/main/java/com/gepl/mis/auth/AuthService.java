@@ -1,21 +1,27 @@
 package com.gepl.mis.auth;
 
-import com.gepl.mis.audit.AuditLoggingAspect;
-import com.gepl.mis.auth.dto.AuthResponse;
-import com.gepl.mis.auth.dto.LoginRequest;
-import com.gepl.mis.auth.dto.SignupRequest;
+import com.gepl.mis.audit.AuditLogRepository;
+import com.gepl.mis.auth.dto.*;
 import com.gepl.mis.config.JwtService;
 import com.gepl.mis.config.SecurityBeansConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuditLogRepository auditLogRepository;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -65,8 +71,24 @@ public class AuthService {
 
     }
 
+        @Transactional
+        public Page<UserTableResponse> getUsersTable(
+                Pageable pageable
+        ) {
+            return userRepository.fetchUsersForDashboard(
+                    pageable
+            );
+        }
+
+    public Page<AuditTableResponse> getAuditTable(Pageable pageable) {
+        return auditLogRepository.fetchAuditTable(pageable);
+    }
+        }
 
 
 
 
-}
+
+
+
+

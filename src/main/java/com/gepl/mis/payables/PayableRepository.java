@@ -1,6 +1,7 @@
 package com.gepl.mis.payables;
 
 import com.gepl.mis.cash.CashLedger;
+import jakarta.annotation.Nonnull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,6 +45,6 @@ public interface PayableRepository extends JpaRepository<Payable, Long> {
         WHERE p.status <> 'PAID'
     """)
     BigDecimal totalPayableOutstandingOrg();
-    Page<Payable> findAll(Pageable pageable);
+    Page<Payable> findAll(@Nonnull Pageable pageable);
 }
 

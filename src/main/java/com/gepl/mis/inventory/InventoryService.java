@@ -19,7 +19,7 @@ public class InventoryService {
                 });
         Inventory item= new Inventory();
         item.setItemCode(request.getItemCode());
-        item.setItemName(request.getItemName());
+        item.setItemCategory(request.getItemCategory());
         item.setQuantity(request.getQuantity());
         item.setUnit(request.getUnit());
         item.setLocation(request.getLocation());
@@ -32,7 +32,7 @@ public class InventoryService {
     public Inventory updateStock(Long id, InventoryRequest request){
         Inventory item=repository.findById(id).orElseThrow(()->new RuntimeException("Item not found"));
 
-        item.setItemName(request.getItemName());
+        item.setItemCategory(request.getItemCategory());
         item.setQuantity(request.getQuantity());
         item.setUnit(request.getUnit());
         item.setLocation(request.getLocation());

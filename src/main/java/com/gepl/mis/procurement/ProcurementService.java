@@ -5,11 +5,11 @@ import com.gepl.mis.inventory.InventoryMovementService;
 import com.gepl.mis.procurement.dto.ProcurementReceiptRequest;
 import com.gepl.mis.procurement.dto.ProcurementRequest;
 import com.gepl.mis.production.ProductionOrder;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -104,7 +104,7 @@ public class KpiService {
 
         OrgKpiResponse res= new OrgKpiResponse();
         res.setTotalProjects(projectRepository.count());
-        res.setActiveProjects(projectRepository.countByStatus("ACTIVE"));
+        res.setActiveProjects(projectRepository.countByStatus("IN_PROGRESS")+ projectRepository.countByStatus("PLANNED")+ projectRepository.countByStatus("ON_HOLD"));
 
         res.setTotalCashIn(cashIn);
         res.setTotalCashOut(cashOut);

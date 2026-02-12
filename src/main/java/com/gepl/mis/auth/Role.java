@@ -5,7 +5,6 @@ public enum Role {
     ACCOUNTS,
     PROCUREMENT,
     PRODUCTION,
-    QC,
-    CPM,
-    MANAGEMENT
+    PROJECT
+
 }

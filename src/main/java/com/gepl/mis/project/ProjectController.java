@@ -1,5 +1,6 @@
 package com.gepl.mis.project;
 
+import com.gepl.mis.procurement.dto.ProcurementRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,14 @@ public class ProjectController {
         String user= SecurityContextHolder.getContext().getAuthentication().getName();
 
         return ResponseEntity.ok(service.create(request,user));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id,
+                                    @Valid @RequestBody ProjectRequest request){
+        String user= SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return ResponseEntity.ok(service.update(id,request,user));
     }
 
     @GetMapping
